@@ -12,8 +12,12 @@ fs.readFile('./package.json', 'utf8', function(err, contents) {
     });
 });
 
+console.log(typeof("/Users/RB/wordpress-dependency-manager"));
+
+return;
+
 readdirp({
-        root: '.',
+        root: "/Users/RB/wordpress-dependency-manager",
         fileFilter: 'package.json',
         depth: 3
     })
@@ -41,7 +45,7 @@ readdirp({
                             console.log('this is object main');
                             console.log(fcopy);
                             console.log(path.extname(fcopy));
-                            fs.copyFileSync(fcopy, './wp-content/themes/twentyseventeen/js/' + obj.main, (err) => {
+                            fs.copyFileSync(fcopy, './wp-content/themes/gulo-theme/js/' + obj.main, (err) => {
                                 console.log('The file' + fcopy + 'has been copied successfully');
                             });
                         }
@@ -54,7 +58,7 @@ readdirp({
 
                             if (path.extname(nestedFile) == '.js' && obj.name != '') {
                                 console.log("This is the nested file" + nestedFile);
-                                fs.copyFileSync(nestedFile, './wp-content/themes//js/' + nestedFile, (err) => {
+                                fs.copyFileSync(nestedFile, './wp-content/themes/twentyseven5teen/js/' + nestedFile, (err) => {
                                     console.log('The file' + fcopy + 'has been copied successfully');
                                 });
                             }
