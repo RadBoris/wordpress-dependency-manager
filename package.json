@@ -29,7 +29,8 @@
     "grunt-contrib-uglify": "~3.0",
     "gulp": "^4.0.2",
     "jquery-kpi-plugin": "^1.0.8",
-    "readdirp": "^3.1.1",
+    "lodash": "^4.17.15",
+    "readdirp": "^3.1.2",
     "svgxuse": "^1.2.6",
     "vanilla-lazyload": "github:verlok/lazyload"
   },
