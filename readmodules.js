@@ -12,12 +12,9 @@ fs.readFile('./package.json', 'utf8', function(err, contents) {
     });
 });
 
-console.log(typeof("/Users/RB/wordpress-dependency-manager"));
-
-return;
 
 readdirp({
-        root: "/Users/RB/wordpress-dependency-manager",
+        root: __dirname.split(path.sep).pop(),
         fileFilter: 'package.json',
         depth: 3
     })
@@ -42,9 +39,6 @@ readdirp({
                         var isFile = fs.statSync(fcopy);
                         // if it is not Grunt and is a file
                         if (fcopy != 'Gruntfile.js' && isFile.isFile()) {
-                            console.log('this is object main');
-                            console.log(fcopy);
-                            console.log(path.extname(fcopy));
                             fs.copyFileSync(fcopy, './wp-content/themes/gulo-theme/js/' + obj.main, (err) => {
                                 console.log('The file' + fcopy + 'has been copied successfully');
                             });
