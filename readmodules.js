@@ -1,64 +1,75 @@
+#!/usr/bin/env node
+
 const readdirp = require('readdirp');
 const fs = require('fs');
 const path = require('path');
 
 var deps = [];
-var found = '';
+var obj = {};
+var target_obj = nested_file = '';
+var project_deps = __dirname + '/package.json';
 
-fs.readFile('./package.json', 'utf8', function(err, contents) {
-    var obj = JSON.parse(contents);
+fs.readFile(project_deps, (err, data) => {
+    if (err) throw err;
+    obj = JSON.parse(data);
     Object.keys(obj.dependencies).forEach(function(e) {
         deps.push(e);
     });
-});
 
+    var curdir = __dirname.split(path.sep).pop().toString();
 
-readdirp({
-        root: __dirname.split(path.sep).pop(),
+    readdirp(__dirname, {
         fileFilter: 'package.json',
         depth: 3
-    })
-    .on('data', (entry) => {
-        var str_sub = entry.parentDir.substr(entry.parentDir.lastIndexOf("\/") + 1);
-        console.log(deps);
-        deps.forEach(function(el) {
-            var fcopy = '';
-            if (el.indexOf(str_sub) > -1) {
-                fs.readFile(entry.fullPath, 'utf8', function(err, contents) {
-                    var obj = JSON.parse(contents);
-                    // if we have a main file specified
-                    if (obj.main !== undefined && obj.main.indexOf("\/") < 1) {
-                        // if only the file is specified as a path
-                        if (entry.parentDir != '') {
-                            fcopy = entry.parentDir + '/' + obj.main;
-                        } else {
-                            // get only the file
-                            fcopy = obj.main;
-                        }
-                        // get the file
-                        var isFile = fs.statSync(fcopy);
-                        // if it is not Grunt and is a file
-                        if (fcopy != 'Gruntfile.js' && isFile.isFile()) {
-                            fs.copyFileSync(fcopy, './wp-content/themes/gulo-theme/js/' + obj.main, (err) => {
-                                console.log('The file' + fcopy + 'has been copied successfully');
-                            });
-                        }
-                    } else {
-                        if (obj.main === undefined) {
-                            // continue
-                        } else {
-                            // get the nested file
-                            var nestedFile = entry.parentDir.substr(entry.parentDir.lastIndexOf("\/") + 1);
-
-                            if (path.extname(nestedFile) == '.js' && obj.name != '') {
-                                console.log("This is the nested file" + nestedFile);
-                                fs.copyFileSync(nestedFile, './wp-content/themes/twentyseven5teen/js/' + nestedFile, (err) => {
-                                    console.log('The file' + fcopy + 'has been copied successfully');
-                                });
-                            }
-                        }
-                    }
-                });
+    }).on('data', (entry) => {
+        if (entry.path !== undefined) {
+            if (entry.path.split('/').slice(-2)[0] !== 'undefined') {
+                var str_sub = entry.path.split('/').slice(-2)[0];
             }
-        });
+        }
+
+        if (deps.includes(str_sub)) {
+            var fcopy = '';
+            fs.readFile(entry.fullPath, (err, data) => {
+                if (typeof data !== 'undefined') {
+                    target_obj = JSON.parse(data);
+                }
+
+                // if we have a main file specified
+                if (typeof target_obj.main !== 'undefined') {
+                    fcopy = __dirname + '/node_modules/' + str_sub + '/' + target_obj.main;
+
+                    // check if main includes parent dir and get just the file name
+                    if (fcopy.includes('/')) {
+                        var filename = target_obj.main.split('/').slice(-1)[0];
+                    } else {
+                        var filename = target_obj.main;
+                    }
+
+                    // check if file exists
+                    if (fs.statSync(fcopy) !== 'undefined') {
+                        var isFile = fs.statSync(fcopy);
+                    }
+
+                    // copy file
+                    if (typeof fcopy !== 'undefined') {
+                        fs.copyFileSync(fcopy, __dirname + '/wp-content/themes/' + curdir + '/js/' + filename, (err) => {
+                            console.log('The file' + fcopy + 'has been copied successfully');
+                        });
+                    }
+
+                    //get jquery.min.js
+                    if (filename.includes('jquery.js') ) {
+                        target_obj.main = 'dist/jquery.min.js';
+                        filename = 'jquery.min.js';
+                        fcopy = __dirname + '/node_modules/' + str_sub + '/' + target_obj.main;
+                        fs.copyFileSync(fcopy, __dirname + '/wp-content/themes/' + curdir + '/js/' + filename, (err) => {
+                            console.log('The file' + fcopy + 'has been copied successfully');
+                        });
+                    }
+                }
+            });
+        }
     });
+});
+
