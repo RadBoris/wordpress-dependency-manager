@@ -98,5 +98,5 @@ module.exports = function(grunt) {
     // test task(s)
     grunt.registerTask('test', ['jshint', 'concat']);
     // Default task(s).
-    grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'usebanner', 'copy']);
+    grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'copy']);
 };
