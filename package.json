@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/RadBoris/wordpress-dependency-manager#readme",
   "dependencies": {
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "jquery-kpi-plugin": "^1.0.8",
     "svgxuse": "^1.2.6",
     "vanilla-lazyload": "github:verlok/lazyload"
