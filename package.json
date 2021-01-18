@@ -1,0 +1,45 @@
+{
+  "name": "wordpress-dependency-manager",
+  "version": "1.0.0",
+  "description": "manage JS libraries",
+  "theme": "twentyseventeen",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deps": "./readmodules.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RadBoris/wordpress-dependency-manager.git"
+  },
+  "keywords": [
+    "wordpress",
+    "node",
+    "grunt"
+  ],
+  "author": "Rad Borislavov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RadBoris/wordpress-dependency-manager/issues"
+  },
+  "homepage": "https://github.com/RadBoris/wordpress-dependency-manager#readme",
+  "dependencies": {
+    "chokidar": "^3.5.1",
+    "jquery": "^3.4.0",
+    "jquery-kpi-plugin": "^1.0.8",
+    "svgxuse": "^1.2.6",
+    "vanilla-lazyload": "github:verlok/lazyload"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.4",
+    "grunt-contrib-concat": "~1.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-nodeunit": "^2.0.0",
+    "grunt-contrib-uglify": "~3.0",
+    "gulp": "^4.0.2",
+    "lodash": "^4.17.15",
+    "readdirp": "^3.2.0"
+  }
+}
